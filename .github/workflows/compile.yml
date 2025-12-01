@@ -1,43 +1,25 @@
-name: Build TurboWarp Desktop Web
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      # Checkout repo with submodules
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           submodules: true
 
-      # Setup Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      # Install dependencies
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
-      # Fetch extra library, packager, and extension files
       - name: Fetch extra files
         run: npm run fetch
 
-      # Build production webpack output
       - name: Build webpack (production)
         run: npm run webpack:prod
 
-      # Upload the static site artifact
       - name: Upload dist-renderer-webpack
         uses: actions/upload-artifact@v4
         with:
