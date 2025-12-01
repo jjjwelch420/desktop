@@ -1,27 +1,57 @@
+name: Build TurboWarp Desktop Web
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      # Checkout repo with submodules
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           submodules: true
 
-      - uses: actions/setup-node@v4
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
+      # Remove old lock file
+      - name: Remove package-lock.json
+        run: rm -f package-lock.json
+
+      # Install dependencies
       - name: Install dependencies
         run: npm install
 
+      # Fetch extra library, packager, and extension files
       - name: Fetch extra files
         run: npm run fetch
 
+      # Build production webpack output
       - name: Build webpack (production)
         run: npm run webpack:prod
 
+      # Upload the static site artifact
       - name: Upload dist-renderer-webpack
         uses: actions/upload-artifact@v4
         with:
           name: turbowarp-static
           path: dist-renderer-webpack
+
+      # Optional: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist-renderer-webpack
