@@ -18,18 +18,13 @@ jobs:
         with:
           submodules: true
 
-      # Setup Node.js
+      # Setup Node.js (no cache, so no lock file requirement)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
-      # Remove old lock file
-      - name: Remove package-lock.json
-        run: rm -f package-lock.json
-
-      # Install dependencies
+      # Install dependencies (skip npm ci, just do install)
       - name: Install dependencies
         run: npm install
 
@@ -37,7 +32,7 @@ jobs:
       - name: Fetch extra files
         run: npm run fetch
 
-      # Build production webpack output 
+      # Build production webpack output
       - name: Build webpack (production)
         run: npm run webpack:prod
 
