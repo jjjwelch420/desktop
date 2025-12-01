@@ -37,7 +37,7 @@ jobs:
       - name: Fetch extra files
         run: npm run fetch
 
-      # Build production webpack output
+      # Build production webpack output 
       - name: Build webpack (production)
         run: npm run webpack:prod
 
