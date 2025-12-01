@@ -6,7 +6,7 @@ Prefix notes with "Windows:", "macOS:", or "Linux:" as needed. Do not use **form
 
  - New compiler runs some projects twice as fast
  - Added face sensing extension. It uses a machine learning model that runs on your computer, so it works offline. Your webcam feed is never uploaded to any server
- - Local storage extension no longer requires manually configuring namespace
+ - Local storage extension no longer requires manually configuring namespace 
  - Newgrounds extension significantly improved
  - Fixed "Unexpected status 503" errors when packaging certain projects
  - Windows: Fixed broken text boxes after choosing "Stay" in the unsaved changes confirmation dialog
