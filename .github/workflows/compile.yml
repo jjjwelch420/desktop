@@ -18,13 +18,17 @@ jobs:
         with:
           submodules: true
 
-      # Setup Node.js (no cache, so no lock file requirement)
+      # Setup Node.js (no cache, avoids lockfile errors)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # Install dependencies (skip npm ci, just do install)
+      # Generate a fresh lock file
+      - name: Generate package-lock.json
+        run: npm install --package-lock-only
+
+      # Install dependencies
       - name: Install dependencies
         run: npm install
 
